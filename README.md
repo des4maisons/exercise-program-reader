@@ -25,3 +25,8 @@ The program expects a CSV file with the headers as in the example CSV provided.
 - before the exercise starts, the program prompts you to hit Ctrl C when ready
   to continue. you have to wait a second or two after that voice prompt before
   the ctrl C will behave correctly (and not kill the whole program).
+
+## Changing the voice
+
+this program uses the default voice of your operating system. If you don't like
+the voice, change it in your OS settings.
