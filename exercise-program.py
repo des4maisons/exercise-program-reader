@@ -5,17 +5,38 @@ import time
 import fileinput
 from pyttsx3 import speak
 
-class Step:
-    def __init__(self,
-        content,
-   ):
-        self.content = content
+class Step: pass
 
+class WaitStep(Step):
+    def __init__(self, duration):
+        self.duration = int(duration)
     def evaluate(self):
-        eval(self.content)
-
+       time.sleep(self.duration)
     def __repr__(self):
-        return "<Step content='{}'>".format(self.content)
+        return '<WaitStep length={}>'.format(self.duration)
+    def __str__(self):
+        return 'wait for {}s'.format(self.duration)
+
+class AnnounceStep(Step):
+    def __init__(self, announcement):
+        self.announcement = announcement
+    def evaluate(self):
+        speak(self.announcement)
+    def __repr__(self):
+        return '<AnnounceStep announcement={}>'.format(self.announcement)
+    def __str__(self):
+        return 'announce "{}"'.format(self.announcement)
+
+class ConfirmStep(Step):
+    def __init__(self):
+        self.duration = 120
+    def evaluate(self):
+        os.system('sleep {}'.format(self.duration))
+    def __repr__(self):
+        return '<ConfirmStep duration={}>'.format(self.duration)
+    def __str__(self):
+        return 'Wait for user confirmation to continue'
+
 
 
 class Exercise:
@@ -46,18 +67,18 @@ class Exercise:
 
     def steps(self):
         steps = []
-        steps += [Step('speak("{}, {}")'.format(self.name, self.position))]
-        steps += [Step('speak("press control C to continue")')]
-        steps += [Step('os.system("sleep 120")')]
-        if self.comment: steps += [Step('speak("{}")'.format(self.comment))]
+        steps += [AnnounceStep('{}, {}'.format(self.name, self.position))]
+        steps += [AnnounceStep('press control C to continue')]
+        steps += [ConfirmStep()]
+        if self.comment: steps += [AnnounceStep(self.comment)]
         for set in range(self.sets):
             for rep in range(self.reps):
-                steps += [Step('speak("begin")')]
-                steps += [Step('time.sleep({})'.format(self.seconds))]
-            steps += [Step('speak("end of set")')]
-            steps += [Step('time.sleep(3)')]
+                steps += [AnnounceStep('begin')]
+                steps += [WaitStep(self.seconds)]
+            steps += [AnnounceStep('end of set')]
+            steps += [WaitStep(3)]
         if self.sets > 0: steps.pop(); steps.pop() # remove trailing "next set"
-        steps += [Step('speak("end of exercise")')]
+        steps += [AnnounceStep('end of exercise')]
 
         return steps
 
