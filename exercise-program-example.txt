@@ -1,4 +1,4 @@
-name,position,seconds,reps,sets,comment,
+name,position,seconds,reps,sets,comment
 resisted knee extension,seated,10,10,1,
 squat with resistance bands,standing,10,10,3,count to 4 while descending and ascend on the 8th second
 hip abduction strengthening to 45 degrees,hands and knees,5,10,1,
