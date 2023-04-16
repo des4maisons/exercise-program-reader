@@ -79,8 +79,8 @@ class Exercise:
     @property
     def steps(self):
         steps = []
-        steps += [AnnounceStep('{}, {}'.format(self._name, self._position))]
-        steps += [AnnounceStep('press control C to continue')]
+        steps += [AnnounceStep('{}, {}. '.format(self._name, self._position)
+                               + 'Press control C to continue')]
         steps += [ConfirmStep()]
         if self._comment: steps += [AnnounceStep(self._comment)]
         for set in range(self._sets):
