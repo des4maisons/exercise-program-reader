@@ -10,7 +10,8 @@ I have only tested it on macos.
 ## Usage
 
 ```
-pip3 install pyttsx3
+# pip3 install pyttsx3
+# pyttsx3 segfaults when I run it so remove it for now...
 python3 exercise-program.py <csv-file> [ --dry-run ]
 ```
 
@@ -30,3 +31,9 @@ The program expects a CSV file with the headers as in the example CSV provided.
 
 this program uses the default voice of your operating system. If you don't like
 the voice, change it in your OS settings.
+
+## Preventing your mac from sleeping during the exercise
+
+```
+caffeinate -d python3 exercise-program.py <csv-file>
+```

@@ -1,11 +1,14 @@
+#!/usr/bin/env python3
 import csv
 import argparse
 import os
 import time
 import fileinput
-from pyttsx3 import speak
+# pyttsx3 segfaults when I run it :(
+# from pyttsx3 import speak
 import operator
 from functools import reduce
+import logging
 
 class Step: pass
 
@@ -26,7 +29,9 @@ class AnnounceStep(Step):
     def __init__(self, announcement):
         self._announcement = announcement
     def evaluate(self):
-        speak(self._announcement)
+        logging.info(self._announcement)
+        os.system("say '[[volm 0.35]] {}'".format(self._announcement))
+        #speak(self._announcement)
     def __repr__(self):
         return '<AnnounceStep announcement={}>'.format(self._announcement)
     def __str__(self):
@@ -132,6 +137,7 @@ def generate_full_routine(routine_spec):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     args = parse_args()
     routine = Routine(generate_full_routine(parse_data(args.filename)))
     if args.dry_run:
